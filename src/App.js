@@ -1,50 +1,45 @@
-import React from 'react';
-import Header from './Header';
-import Footer from './Footer';
+import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route
-} from "react-router-dom";
+import { Alert } from 'react-bootstrap';
+import axios from 'axios';
+import BestBooks from './components/BestBooks';
 
-class App extends React.Component {
+class App extends Component {
 
-  constructor(props) {
+  constructor(props){
     super(props);
-    this.state = {
-      user: null,
+    this.state={
+      data:[],
+      showData:false
     }
   }
-
-  loginHandler = (user) => {
-    this.setState({
-      user,
+  
+  componentDidMount=()=>{
+    axios.get(`http://${process.env.REACT_APP_BACKEND_URL}/books`).then(response=>{
+      this.setState({
+        data:response.data
+      })
+     if(this.state.data.length>0){
+      this.setState({
+        showData: true
+      })
+     }
+     console.log(this.state.data)
     })
   }
 
-  logoutHandler = () => {
-    this.setState({
-      user: null,
-    })
-  }
 
   render() {
     return (
-      <>
-        <Router>
-          <Header user={this.state.user} onLogout={this.logoutHandler} />
-          <Switch>
-            <Route exact path="/">
-              {/* TODO: if the user is logged in, render the `BestBooks` component, if they are not, render the `Login` component */}
-            </Route>
-            {/* TODO: add a route with a path of '/profile' that renders a `Profile` component */}
-          </Switch>
-          <Footer />
-        </Router>
-      </>
+      <div>
+         <h1 className="text-warning bg-secondary text-center"> Can of Books</h1>
+      { this.state.showData && <BestBooks data={this.state.data} />}
+      {!this.state.showData && <Alert variant="warning">
+            book collection is empty.
+          </Alert>}
+      </div>
     )
   }
 }
 
-export default App;
+export default App
