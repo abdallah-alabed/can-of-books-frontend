@@ -23,7 +23,7 @@ class App extends Component {
 
   componentDidMount = () => {
     axios
-      .get(`http://${process.env.REACT_APP_BACKEND_URL}/books`)
+      .get(`${process.env.REACT_APP_BACKEND_URL}/books`)
       .then((response) => {
         this.setState({
           data: response.data,
