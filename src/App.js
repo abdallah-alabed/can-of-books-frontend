@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Alert, Button, Container,Col,Row } from "react-bootstrap";
+import { Alert, Button, Container, Col, Row } from "react-bootstrap";
 import axios from "axios";
 import BestBooks from "./components/BestBooks";
 import BookFormModal from "./components/BookFormModal";
+import UpdateModal from "./components/UpdateModal";
 
 class App extends Component {
   constructor(props) {
@@ -12,6 +13,7 @@ class App extends Component {
       data: [],
       showData: false,
       showModal: false,
+      showModalUpdate: false,
       title: "",
       description: "",
       email: "",
@@ -40,10 +42,20 @@ class App extends Component {
       showModal: true,
     });
   };
+  handleShowModalUpdate = () => {
+    this.setState({
+      showModalUpdate: true,
+    });
+  };
 
   handleCloseModal = () => {
     this.setState({
       showModal: false,
+    });
+  };
+  handleCloseModalUpdate = () => {
+    this.setState({
+      showModalUpdate: false,
     });
   };
 
@@ -64,6 +76,12 @@ class App extends Component {
       email: event.target.value,
     });
     console.log(this.state.email);
+  };
+  updateId = (event) => {
+    this.setState({
+      id: event.target.value,
+    });
+    console.log(this.state.id);
   };
 
   addBook = async (event) => {
@@ -90,20 +108,11 @@ class App extends Component {
       this.setState({
         data: newBooks.data,
         showModal: false,
-      
       });
     }
   };
 
-  updateId = (event) => {
-
-    this.setState({
-      id: event.target.value,
-    });
-    console.log(this.state.id);
-  };
   deleteBook = async (event) => {
-   
     let newBooks = await axios.delete(
       `http://${process.env.REACT_APP_BACKEND_URL}/delete/${this.state.id}`
     );
@@ -113,6 +122,27 @@ class App extends Component {
     });
   };
 
+  updateBook = async (event) => {
+    event.preventDefault();
+
+    const bookData = {
+      title: this.state.title,
+      description: this.state.description,
+      email: this.state.email,
+    };
+    console.log(this.state.id);
+
+    let booksData = await axios.put(
+      `http://${process.env.REACT_APP_BACKEND_URL}/update/${this.state.id}`,
+      bookData
+    );
+
+    this.setState({
+      showModalUpdate: false,
+      data: booksData.data,
+    
+    });
+  };
   render() {
     return (
       <div className="bg-secondary">
@@ -123,11 +153,21 @@ class App extends Component {
           <Alert variant="warning">book collection is empty.</Alert>
         )}
         <Container>
-          <Row >
-            <Col xs={4}  md={{ span: 3, offset: 3 }}>
+          <Row>
+            <Col xs={3} md={{ span: 3, offset: 0 }}>
               <Button size="lg" onClick={this.handleShowModal}>
                 {" "}
                 Add Book!
+              </Button>{" "}
+            </Col>
+            <Col xs={3} md={{ span: 3, offset: 0 }}>
+              <Button
+                size="lg"
+                variant="success"
+                onClick={this.handleShowModalUpdate}
+              >
+                {" "}
+                Update Book!
               </Button>{" "}
             </Col>
             <Col xs={6} md={{ span: 4 }}>
@@ -138,8 +178,6 @@ class App extends Component {
               </Button>
               <input placeholder="Book Id To Delete" onChange={this.updateId} />
             </Col>
-        
-            
           </Row>
         </Container>
 
@@ -151,6 +189,18 @@ class App extends Component {
             updateDescription={this.updateDescription}
             updateEmail={this.updateEmail}
             addBook={this.addBook}
+          />
+        )}
+
+        {this.state.showModalUpdate && (
+          <UpdateModal
+            closeModalFx={this.handleCloseModalUpdate}
+            showModalUpdate={this.state.showModalUpdate}
+            updateBookName={this.updateBookName}
+            updateDescription={this.updateDescription}
+            updateEmail={this.updateEmail}
+            updateId={this.updateId}
+            updateBook={this.updateBook}
           />
         )}
       </div>
