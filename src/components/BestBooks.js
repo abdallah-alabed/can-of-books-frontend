@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Carousel, Button } from "react-bootstrap";
+import { Carousel } from "react-bootstrap";
 
 class BestBooks extends Component {
     
@@ -12,7 +12,7 @@ class BestBooks extends Component {
           <Carousel>
             {this.props.data.map((e) => {
               return (
-                <Carousel.Item interval={1000}>
+                <Carousel.Item interval={5000}>
                   <img
                     className=" w-100"
                     src="https://images.template.net/wp-content/uploads/2016/04/20062817/Book-Icon-Illustration-Download.jpg"
