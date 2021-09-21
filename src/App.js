@@ -101,7 +101,7 @@ class App extends Component {
       </Alert>;
     } else {
       let newBooks = await axios.post(
-        `http://${process.env.REACT_APP_BACKEND_URL}/create`,
+        `${process.env.REACT_APP_BACKEND_URL}/create`,
         bookFromData
       );
 
@@ -114,7 +114,7 @@ class App extends Component {
 
   deleteBook = async (event) => {
     let newBooks = await axios.delete(
-      `http://${process.env.REACT_APP_BACKEND_URL}/delete/${this.state.id}`
+      `${process.env.REACT_APP_BACKEND_URL}/delete/${this.state.id}`
     );
 
     this.setState({
@@ -133,7 +133,7 @@ class App extends Component {
     console.log(this.state.id);
 
     let booksData = await axios.put(
-      `http://${process.env.REACT_APP_BACKEND_URL}/update/${this.state.id}`,
+      `${process.env.REACT_APP_BACKEND_URL}/update/${this.state.id}`,
       bookData
     );
 
