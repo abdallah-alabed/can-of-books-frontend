@@ -115,3 +115,46 @@ Start time: 3 pm
 Finish time: 5:00 pm
 
 Actual time needed to complete: almsot 2 hours
+
+//////////////////////////////////////////////////////////////////////////
+**Version**: 4.0.0 
+
+## Overview
+app to track what books have impacted you, and what's recommended to read next.
+Allow the user to enter and delete books into the collection.
+Added Updating books & connected it to the Atlas server.
+added 0Auth authentication to access the library to create, update and delete.
+
+## Getting Started
+<!-- What are the steps that a user must take in order to build this app on their own machine and get it running? -->
+first login with google
+To Create a book:
+press (CreateBook) then fill the form!
+To Update a book:
+copy the bookID then press (UpdateBook) then fill the form!
+To Delete the book:
+Copy the Id to the small tab next to the delete button then press delete.
+
+## Architecture
+Javascript
+cors
+express
+react-bootstrap
+mongo DB
+Atlas
+0Auth
+
+
+## Credit and Collaborations
+<!-- Give credit (and a link) to other people or resources that helped you build this application. -->
+
+
+Name of feature: storage of data on mongo DB 
+
+Estimate of time needed to complete: 3 hour
+
+Start time: 3 pm
+
+Finish time: 7 pm
+
+Actual time needed to complete: almsot 4 hours
